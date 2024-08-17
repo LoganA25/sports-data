@@ -1,0 +1,7 @@
+dbt_project:
+  target: local
+  outputs:
+    local:
+      type: duckdb
+      path: ./sports/duckdb/
+      schema: dbt_schema

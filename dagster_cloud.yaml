@@ -1,0 +1,4 @@
+locations:
+  - location_name: sports_pipeline
+    code_source:
+      package_name: sports
