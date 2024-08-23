@@ -12,7 +12,7 @@ dbt = DbtCliResource(project_dir=os.fspath(dbt_project_dir))
 # If DAGSTER_DBT_PARSE_PROJECT_ON_LOAD is set, a manifest will be created at runtime.
 # Otherwise, we expect a manifest to be present in the project's target directory.
 
-target = 'local' 
+target = 'prod' 
 
 dbt_parse_invocation = dbt.cli(["parse", "--target", target], manifest={}).wait()
 

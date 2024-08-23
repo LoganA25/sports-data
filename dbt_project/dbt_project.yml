@@ -15,4 +15,11 @@ clean-targets:
   - "dbt_packages"
 
 models:
-  +materialized: table
+ sports_data:
+  staging:
+    +materialized: view
+    +database: staging
+
+  analytics:
+    materialized: table
+    database: analytics
