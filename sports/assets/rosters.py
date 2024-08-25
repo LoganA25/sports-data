@@ -2,7 +2,7 @@ from dagster import asset, define_asset_job
 import requests, pandas as pd, os
 
 
-@asset(group_name='rosters', compute_kind='Python', io_manager_key='motherduck', key_prefix=['rosters'])
+@asset(group_name='teams', compute_kind='Python', io_manager_key='motherduck', key_prefix='teams')
 def rosters(context) -> pd.DataFrame:
     url = "https://tank01-nfl-live-in-game-real-time-statistics-nfl.p.rapidapi.com/getNFLTeamRoster"
 
@@ -68,4 +68,4 @@ def rosters(context) -> pd.DataFrame:
 
     return df
 
-rosters_job = define_asset_job(name="rosters", selection=[rosters])
+rosters_job = define_asset_job(name="teams", selection=[rosters])

@@ -13,6 +13,8 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
 
         schema = dbt_resource_props.get("schema")
 
+        print(dbt_resource_props)
+
         return schema
 
     def get_asset_key(self, dbt_resource_props: Mapping[str, Any]) -> AssetKey:
@@ -26,6 +28,8 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
             #     schema = f"dev_{schema}"
 
             asset_key = AssetKey([schema, dbt_resource_props.get("name")])
+
+        print(asset_key)
 
         return asset_key
 

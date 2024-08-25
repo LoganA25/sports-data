@@ -3,4 +3,5 @@ sports:
   outputs:
     prod:
       type: duckdb
-      path: "md:raw"
+      path: "md:staging"
+      schema: "teams"
