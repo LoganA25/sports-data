@@ -11,11 +11,9 @@ manifest_path = Path(dbt_manifest_path)
 class CustomDagsterDbtTranslator(DagsterDbtTranslator):
     def get_group_name(self, dbt_resource_props: Mapping[str, Any]) -> Optional[str]:
 
-        schema = dbt_resource_props.get("schema")
+        schema = dbt_resource_props.get("fqn")
 
-        print(dbt_resource_props)
-
-        return schema
+        return schema[2]
 
     def get_asset_key(self, dbt_resource_props: Mapping[str, Any]) -> AssetKey:
 
@@ -28,8 +26,6 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
             #     schema = f"dev_{schema}"
 
             asset_key = AssetKey([schema, dbt_resource_props.get("name")])
-
-        print(asset_key)
 
         return asset_key
 
