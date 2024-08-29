@@ -4,4 +4,3 @@ sports:
     prod:
       type: duckdb
       path: "md:"
-      schema: "teams"
