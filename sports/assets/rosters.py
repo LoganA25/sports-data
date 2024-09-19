@@ -1,5 +1,10 @@
 from dagster import asset, define_asset_job
-import requests, pandas as pd, os, yaml
+
+import requests
+import pandas as pd
+import os
+import yaml
+import duckdb
 
 with open("./sports/configs/nfl_teams.yml") as file:
     nfl_teams: dict = yaml.load(file, Loader=yaml.FullLoader).get("teams")
@@ -30,8 +35,17 @@ def rosters(context) -> pd.DataFrame:
         df = pd.DataFrame(response["body"], index=None)
 
         all_teams.append(df)
-    
+
     df = pd.concat(all_teams)
+
+    roster_json = df['roster'].to_json(orient="records")
+    
+    with open("./sports/assets/roster_data.json", "w") as json_file:
+        json_file.write(roster_json)
+
+    df_roster = duckdb.read_json("./sports/assets/roster_data.json")
+
+    df = df.join(df_roster)
 
     return df
 
