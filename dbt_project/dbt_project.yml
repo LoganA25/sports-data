@@ -17,9 +17,10 @@ clean-targets:
 models:
  sports:
     staging:
-      +materialized: view
+      +materialized: table
       +database: staging
 
     analytics:
-      materialized: table
-      database: analytics
+      +materialized: view
+      +database: analytics
+      +secured: true
