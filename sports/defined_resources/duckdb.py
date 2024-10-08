@@ -7,5 +7,5 @@ import os
 @defined_resource
 def motherduck() -> DuckDBPandasIOManager:
     return DuckDBPandasIOManager(
-            database=f"md:?motherduck_token={os.getenv('MOTHERDUCK_TOKEN')}"
+            database=f"md:raw?motherduck_token={os.getenv('MOTHERDUCK_TOKEN')}"
         )

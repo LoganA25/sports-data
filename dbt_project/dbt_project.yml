@@ -19,7 +19,6 @@ models:
     staging:
       +materialized: table
       +database: staging
-
     analytics:
       +materialized: view
       +database: analytics
