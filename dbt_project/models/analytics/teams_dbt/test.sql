@@ -1,2 +1,2 @@
-select * from {{ ref('teams_rosters') }}
+select * from {{ ref('stats') }}
 
