@@ -11,11 +11,20 @@ with open("./sports/configs/nfl_teams.yml") as file:
 @asset(group_name='teams', compute_kind='Python', io_manager_key='motherduck', key_prefix='teams')
 def rosters(context) -> pd.DataFrame:
     """
-    Retrieves NFL team roster data from an API and processes it into a dataframe.
+    Retrieves and processes NFL team roster data from an API into a pandas DataFrame.
 
-    This function fetches roster information for each NFL team based on details from a yaml file.
-    For each team, it gathers player statistics, injury reports, and general team data. The data is parsed and
-    organized into a single, comprehensive table, with each team's information combined into one dataset.
+    This function fetches roster information for each NFL team using details from a YAML configuration file.
+    It gathers player statistics, injury reports, and general team data for each team.
+
+    Args:
+        context (OpExecutionContext): Dagster context object for logging and job metadata.
+
+    Returns:
+        pd.DataFrame: A DataFrame containing roster data for all NFL teams, with normalized player statistics
+        and injury reports.
+
+    Notes:
+        - The 'nfl_teams' dictionary should contain 'teamID' and 'teamAbv' for each team.
     """
     url = "https://tank01-nfl-live-in-game-real-time-statistics-nfl.p.rapidapi.com/getNFLTeamRoster"
 
@@ -54,7 +63,7 @@ def rosters(context) -> pd.DataFrame:
             final_team_df = final_team_df.loc[:, ~final_team_df.columns.duplicated()]
 
             final_dfs.append(final_team_df)
-        
+
         except Exception as e:
             context.log.error(f"An error occurred for {team['teamAbv']}: {e}")
 
