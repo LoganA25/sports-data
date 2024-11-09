@@ -3,7 +3,7 @@ select
     rosters.jerseyNum as jersey_number,
     rosters.pos as position,
     rosters.school,
-    rosters.espnName as espn_name,
+    rosters.espnName as name,
     rosters.espnID as espn_id,
     rosters.espnLink as espn_link,
     rosters.espnHeadshot as espn_headshot,
