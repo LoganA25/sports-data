@@ -4,6 +4,6 @@ sources:
   - name: teams
     database: raw
     tables:
-      - name: rosters
+      - name: players
 
   
