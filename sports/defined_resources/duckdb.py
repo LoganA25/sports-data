@@ -5,5 +5,5 @@ from dagster import EnvVar
 @defined_resource
 def motherduck():
     return MotherDuck(
-        database=EnvVar("MOTHERDUCK_DATABASE"),
+        database=EnvVar("MOTHERDUCK_TOKEN"),
     )
