@@ -10,7 +10,7 @@ class Dates(Config):
 
 players_partitions = DynamicPartitionsDefinition(name="players")
 
-@asset(metadata={"partition_expr": "week"}, partitions_def=players_partitions, group_name="teams", compute_kind="Python", io_manager_key="motherduck", key_prefix="teams")
+@asset(metadata={"partition_expr": "week"}, partitions_def=players_partitions, group_name="players", compute_kind="Python", io_manager_key="motherduck", key_prefix="teams")
 def players(config: Dates) -> pd.DataFrame:
 
     postitions = ["QB", "WR", "RB", "TE", "K", "DB", "LB"]
@@ -28,8 +28,9 @@ def players(config: Dates) -> pd.DataFrame:
 
     df = pd.concat(all_players)
 
-    df['week'] = config.week
+    df["week"] = config.week
 
     return df
+
 
 players_job = define_asset_job(name="teams", selection=[players])

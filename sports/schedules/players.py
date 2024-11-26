@@ -5,12 +5,13 @@ from sports.assets.players import players_partitions
 
 import requests
 
-@schedule(job=players_job, name="players", cron_schedule="0 1 * * 3", execution_timezone="US/Central")
+
+@schedule(job=players_job, name="players", cron_schedule="0 1 * * 2", execution_timezone="US/Central")
 def players(context: ScheduleEvaluationContext):
     positions = ["QB", "WR", "RB", "TE", "K", "DB", "LB"]
     nfl_weeks = ["1", "2"]
 
-    run_requests = [] 
+    run_requests = []
 
     for week in nfl_weeks:
         try:
@@ -22,13 +23,17 @@ def players(context: ScheduleEvaluationContext):
                     missing_positions.append(position)
 
             if missing_positions:
-                context.log.warning(f"Missing data for week {week}: positions {', '.join(missing_positions)}")
+                context.log.warning(
+                    f"Missing data for week {week}: positions {', '.join(missing_positions)}"
+                )
             else:
                 context.log.info(f"All data available for week {week}.")
                 run_requests.append(
                     RunRequest(
-                        run_key=week, 
-                        run_config={"ops": {"teams__players": {"config": {"week": week}}}},
+                        run_key=week,
+                        run_config={
+                            "ops": {"teams__players": {"config": {"week": week}}}
+                        },
                         tags={"dagster/partition": week},
                     )
                 )
