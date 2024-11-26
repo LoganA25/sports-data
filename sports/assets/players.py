@@ -1,4 +1,4 @@
-from dagster import asset, define_asset_job, Config, DynamicPartitionsDefinition
+from dagster import asset, define_asset_job, Config, StaticPartitionsDefinition
 from typing import List
 from io import BytesIO
 
@@ -8,7 +8,7 @@ import pandas as pd
 class Dates(Config):
     week: str
 
-players_partitions = DynamicPartitionsDefinition(name="players")
+players_partitions = StaticPartitionsDefinition(partition_keys=["1", "2"])
 
 @asset(metadata={"partition_expr": "week"}, partitions_def=players_partitions, group_name="players", compute_kind="Python", io_manager_key="motherduck", key_prefix="teams")
 def players(config: Dates) -> pd.DataFrame:

@@ -5,7 +5,6 @@ from sports.assets.players import players_partitions
 
 import requests
 
-
 @schedule(job=players_job, name="players", cron_schedule="0 1 * * 2", execution_timezone="US/Central")
 def players(context: ScheduleEvaluationContext):
     positions = ["QB", "WR", "RB", "TE", "K", "DB", "LB"]
@@ -35,7 +34,9 @@ def players(context: ScheduleEvaluationContext):
                             "ops": {"teams__players": {"config": {"week": week}}}
                         },
                         tags={"dagster/partition": week},
+                        partition_key=week,
                     )
+                    
                 )
 
         except Exception as e:
