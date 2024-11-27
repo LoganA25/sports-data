@@ -1,14 +1,14 @@
 # from dagster import sensor, SensorEvaluationContext, SensorResult, RunRequest
 from dagster import schedule, ScheduleEvaluationContext, RunRequest
-from sports.assets.players import players_job
-from sports.assets.players import players_partitions
+from sports.assets.nfl_players import nfl_players_job
+from sports.assets.nfl_players import players_partitions
 
 import requests
 
-@schedule(job=players_job, name="players", cron_schedule="0 1 * * 2", execution_timezone="US/Central")
-def players(context: ScheduleEvaluationContext):
+@schedule(job=nfl_players_job, name="nfl_players", cron_schedule="0 1 * * 2", execution_timezone="US/Central")
+def nfl_players(context: ScheduleEvaluationContext):
     positions = ["QB", "WR", "RB", "TE", "K", "DB", "LB"]
-    nfl_weeks = ["1", "2"]
+    nfl_weeks = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18"]
 
     run_requests = []
 
@@ -23,18 +23,19 @@ def players(context: ScheduleEvaluationContext):
 
             if missing_positions:
                 context.log.warning(
-                    f"Missing data for week {week}: positions {', '.join(missing_positions)}"
+                    f"Missing data for week {week} for these position(s): {', '.join(missing_positions)}"
                 )
+                break
             else:
                 context.log.info(f"All data available for week {week}.")
                 run_requests.append(
                     RunRequest(
-                        run_key=week,
+                        run_key=f"week_{week}",
                         run_config={
-                            "ops": {"teams__players": {"config": {"week": week}}}
+                            "ops": {"teams__nfl_players": {"config": {"week": week}}}
                         },
-                        tags={"dagster/partition": week},
-                        partition_key=week,
+                        tags={"dagster/partition": f"week_{week}"},
+                        partition_key=f"week_{week}",
                     )
                     
                 )

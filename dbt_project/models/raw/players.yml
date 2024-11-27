@@ -4,6 +4,6 @@ sources:
   - name: players
     database: raw
     tables:
-      - name: players
+      - name: nfl_players
 
   
