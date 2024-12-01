@@ -31,19 +31,19 @@ players_partitions = StaticPartitionsDefinition(
     ]
 )
 
-@asset(metadata={"partition_expr": "week"}, partitions_def=players_partitions, group_name="nfl_players", compute_kind="Python", io_manager_key="motherduck", key_prefix="teams")
-def nfl_players(config: Dates) -> pd.DataFrame:
+@asset(metadata={"partition_expr": "week"}, partitions_def=players_partitions, group_name="nfl", compute_kind="Python", io_manager_key="motherduck", key_prefix="nfl")
+def players(config: Dates) -> pd.DataFrame:
 
     postitions = ["QB", "WR", "RB", "TE", "K", "DB", "LB"]
 
     all_players = []
 
     for postition in postitions:
-        url = f"https://raw.githubusercontent.com/hvpkod/NFL-Data/main/NFL-data-Players/2024/{config.week}/{postition}.json"
+        url = f"https://raw.githubusercontent.com/hvpkod/NFL-Data/main/NFL-data-Players/2024/{config.week}/{postition}.csv"
 
         file = BytesIO(requests.get(url).content)
 
-        df = pd.read_json(file)
+        df = pd.read_csv(file)
 
         all_players.append(df)
 
@@ -54,4 +54,4 @@ def nfl_players(config: Dates) -> pd.DataFrame:
     return df
 
 
-nfl_players_job = define_asset_job(name="teams", selection=[nfl_players])
+nfl_players_job = define_asset_job(name="nfl_players", selection=[players])

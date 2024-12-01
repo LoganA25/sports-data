@@ -1,9 +1,9 @@
 version: 2
 
 sources:
-  - name: players
+  - name: nfl
     database: raw
     tables:
-      - name: nfl_players
+      - name: players
 
   

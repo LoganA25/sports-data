@@ -3,4 +3,4 @@ sports:
   outputs:
     prod:
       type: duckdb
-      path: "md:"
+      path: "{{ env_var('MOTHERDUCK_TOKEN_DBT') }}"
