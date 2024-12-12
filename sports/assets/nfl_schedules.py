@@ -39,7 +39,7 @@ def nfl_schedules() -> pd.DataFrame:
         "SF",
         "TB",
         "TEN",
-        "WAS",
+        "WSH",
     ]
 
     all_schedules = []
@@ -51,8 +51,6 @@ def nfl_schedules() -> pd.DataFrame:
             response = requests.get(url)
 
             schedule = response.json()
-
-            # team_abbreviation = schedule["team"]["abbreviation"]
 
             weeks = [event["week"]["number"] for event in schedule["events"]]
 
@@ -70,7 +68,7 @@ def nfl_schedules() -> pd.DataFrame:
 
             weeks_opponent = list(zip(weeks, opponent, home_away))
 
-            df = pd.DataFrame(weeks_opponent, columns=["Week", "PlayerOpponent", "Location"])
+            df = pd.DataFrame(weeks_opponent, columns=["Week", "PlayerOpponent", "HomeAway"])
 
             df["Team"] = team
 
